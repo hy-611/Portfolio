@@ -39,7 +39,7 @@ body {
 }
 
 .section-inner {
-  width: min(1180px, 100% - 48px);
+  width: min(1500px, 100% - 96px);
   margin-inline: auto;
 }
 
@@ -94,6 +94,7 @@ body {
 .ph--profile { aspect-ratio: 3 / 4; min-height: 320px; }
 .ph--wide { aspect-ratio: 4 / 3; }
 .ph--square { aspect-ratio: 1 / 1; min-height: 0; border-radius: 14px; }
+.ph--monitor { aspect-ratio: 8 / 5; max-width: 800px; margin-inline: auto; }
 
 /* =========================================================
    2. TOP NAV
@@ -339,79 +340,118 @@ body {
 /* =========================================================
    4. ABOUT
 ========================================================= */
-.about { padding: var(--section-pad) 0; }
+.about { padding: var(--section-pad) 0; overflow: hidden; }
+.about__inner { width: min(1700px, 100% - 72px); container-type: inline-size; }
 .about__title {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-en);
-  font-weight: 900;
-  font-size: clamp(2.6rem, 8vw, 4.5rem);
-  color: var(--blue);
-  letter-spacing: .01em;
-  line-height: 1;
+  font-weight: 700;
+  font-size: clamp(3rem, 13.3cqw, 20rem);
+  color: var(--blue-strong);
+  letter-spacing: -.01em;
+  line-height: .95;
+  text-align: center;
 }
-.about__lead { margin-top: 18px; }
-.about__desc { font-size: 1rem; color: var(--text-soft); }
-.about__desc--bold { font-weight: 700; color: var(--text); font-size: 1.1rem; margin-top: 2px; }
 
-.about__body {
-  margin-top: 48px;
+.about__grid {
+  position: relative;
+  z-index: 2;
+  margin-top: 32px;
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 44px;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  grid-template-areas:
+    "tagline photo line"
+    "info    photo skills";
+  column-gap: clamp(24px, 4vw, 56px);
+  row-gap: 28px;
   align-items: start;
 }
+.about__grid > * { min-width: 0; }
 
-.info-block { border-top: 1px solid var(--line); padding-top: 14px; margin-bottom: 26px; }
+.about__tagline { grid-area: tagline; padding-top: 4px; }
+.about__desc { font-size: 1.45rem; color: var(--blue); line-height: 1.4; letter-spacing: -.02em; }
+.about__desc--bold { font-weight: 800; color: var(--blue-strong); font-size: 1.68rem; margin-top: 4px; letter-spacing: -.02em; }
+
+.about__line { grid-area: line; align-self: center; height: 1px; margin-top: 6px; background: var(--blue); }
+
+.about__photo-cell { grid-area: photo; }
+.ph--tall { height: 100%; min-height: 420px; }
+
+.about__info-col { grid-area: info; }
+.about__skills-col { grid-area: skills; }
+
+.info-block { margin-bottom: 26px; }
+.info-block:last-child { margin-bottom: 0; }
 .info-block__title {
+  display: inline-block;
   font-family: var(--font-en);
   font-weight: 800;
   font-size: .8rem;
   letter-spacing: .08em;
   color: var(--blue);
-  margin-bottom: 10px;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid var(--blue);
 }
 .info-block__list li {
-  font-size: .88rem;
+  font-size: .92rem;
   color: var(--text-soft);
-  line-height: 1.9;
+  line-height: 1.5;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
 }
 .info-block__list li strong { color: var(--text); font-weight: 700; }
+.info-block__list li.no-border { border-bottom: none; padding-bottom: 2px; }
+.info-block__list li.no-border + li { padding-top: 2px; }
 
-.skill-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-.skill-badge {
-  display: inline-flex;
+.skill-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 26px; }
+.skill-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.skill-icon-ph {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  height: 34px;
-  padding: 0 8px;
-  border-radius: 9px;
-  font-family: var(--font-en);
-  font-weight: 800;
-  font-size: .68rem;
-  color: #fff;
+  text-align: center;
+  /* background-color: #E4E4E4; */
+  border-radius: 10px;
+  opacity: 0;
+  transform: scale(.82);
+  transition: opacity .5s ease, transform .5s ease;
+  transition-delay: calc(var(--i, 0) * 40ms);
 }
-.skill-badge--ps { background: #001e36; }
-.skill-badge--ai { background: #330000; }
-.skill-badge--pr { background: #00005b; }
-.skill-badge--xd { background: #470137; }
-.skill-badge--fig { background: #1e1e1e; }
-.skill-badge--id { background: #401300; }
-.skill-badge--gh { background: #24292e; }
-.skill-badge--zeplin { background: #fdbd39; color: #2a2a2a; }
-.skill-badge--notion { background: #2a2a2a; }
-.skill-badge--miro { background: #ffd02f; color: #2a2a2a; }
+.about__skills-col.is-visible .skill-icon-ph { opacity: 1; transform: scale(1); }
 
-.info-block--contact { border-top: none; display: flex; flex-direction: column; gap: 10px; }
+.info-block--contact { border-top: none; display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
 .contact-line {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: .85rem;
+  gap: 9px;
+  font-size: .88rem;
+  color: var(--text-soft);
+  transition: color .2s;
+  cursor: pointer;
+}
+.contact-line:hover { color: var(--blue); }
+.contact-line.is-copied { color: var(--blue); }
+.contact-line__icon {
+  display: inline-flex;
   color: var(--text-soft);
   transition: color .2s;
 }
-.contact-line:hover { color: var(--blue); }
-.contact-line__icon { color: var(--blue); }
+.contact-line__icon svg { width: 16px; height: 16px; }
+.contact-line:hover .contact-line__icon,
+.contact-line.is-copied .contact-line__icon { color: var(--blue); }
+
+.reveal-delay-1 { transition-delay: .12s; }
+.reveal-delay-2 { transition-delay: .24s; }
+
+@media (min-width: 961px) {
+  .about__photo-cell { position: relative; z-index: 3; margin-top: -70px; }
+  .info-block--contact { margin-top: 108px; }
+}
 
 /* =========================================================
    5. SIDE DOT NAV
@@ -464,6 +504,17 @@ body {
 .project__inner--reverse .project__text { order: 2; }
 .project__inner--reverse .project__media { order: 1; }
 
+/* --- 프로젝트 슬라이더 (4개 작업을 가로로 넘기는 기능) --- */
+.project__slider { overflow: hidden; }
+.project__track {
+  display: flex;
+  transition: transform .5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.project__slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
 .project__tags {
   display: flex;
   flex-wrap: wrap;
@@ -480,6 +531,12 @@ body {
   border-radius: 100px;
 }
 .project--01 .project__tags span { color: var(--pink); background: rgba(255, 92, 147, .1); }
+
+.project__tags--plain { gap: 28px; margin-bottom: 44px; }
+.project__tags--plain span { background: none; padding: 0; border-radius: 0; font-size: 1rem; }
+.project--01 .project__num { font-size: 1rem; margin-bottom: 18px; }
+.project--01 .project__title { font-size: clamp(2.6rem, 5.2vw, 3.6rem); line-height: 1.25; margin-bottom: 46px; }
+.project--01 .project__desc { font-size: 1.08rem; line-height: 1.55; margin-bottom: 30px; }
 
 .project__num {
   font-family: var(--font-en);
@@ -530,6 +587,12 @@ body {
 .btn--fill-purple { background: var(--purple); color: #fff; }
 .btn--fill-pink:hover, .btn--fill-purple:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.12); }
 
+.btn--lg { padding: 18px 38px; font-size: .92rem; border-radius: 0; }
+.btn--fill-white { background: #fff; color: var(--text); box-shadow: 0 6px 18px rgba(0,0,0,.07); }
+.btn--fill-white:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+.btn--outline-pink { border: 1.5px solid var(--pink); color: var(--pink); background: transparent; }
+.btn--outline-pink:hover { background: var(--pink); color: #fff; }
+
 .project__media { position: relative; }
 .project__carousel-dots {
   display: flex;
@@ -540,12 +603,35 @@ body {
 .project__carousel-dots .dot {
   width: 8px;
   height: 8px;
+  padding: 0;
+  min-width: 0;
   border-radius: 50%;
   background: #cfcfcf;
   transition: all .2s;
 }
 .project__carousel-dots[data-color="pink"] .dot.is-active { background: var(--pink); width: 22px; border-radius: 5px; }
 .project__carousel-dots[data-color="purple"] .dot.is-active { background: var(--purple); width: 22px; border-radius: 5px; }
+
+/* --- 프로젝트 슬라이더 하단 중앙 도트 (4개 작업 전환용) --- */
+.project__carousel-dots--section {
+  justify-content: center;
+  gap: 12px;
+  margin-top: 64px;
+}
+.project__carousel-dots--section .dot,
+.project__carousel-dots--section .dot.is-active {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+.project__carousel-dots--section .dot {
+  background: transparent;
+  border: 1.5px solid var(--ph-border);
+}
+.project__carousel-dots--section[data-color="pink"] .dot { border-color: rgba(255, 92, 147, .45); }
+.project__carousel-dots--section[data-color="pink"] .dot.is-active { background: var(--pink); border-color: var(--pink); }
+.project__carousel-dots--section[data-color="purple"] .dot { border-color: rgba(139, 92, 246, .45); }
+.project__carousel-dots--section[data-color="purple"] .dot.is-active { background: var(--purple); border-color: var(--purple); width: 10px; }
 
 /* =========================================================
    7. GALLERY
@@ -639,8 +725,17 @@ body {
    11. RESPONSIVE — TABLET
 ========================================================= */
 @media (max-width: 960px) {
-  .about__body { grid-template-columns: 1fr; }
-  .ph--profile { max-width: 320px; margin-inline: auto; }
+  .about__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "tagline"
+      "photo"
+      "info"
+      "skills";
+    row-gap: 32px;
+  }
+  .about__line { display: none; }
+  .ph--tall { max-width: 360px; min-height: 360px; margin-inline: auto; }
   .project__inner { grid-template-columns: 1fr; }
   .project__inner--reverse .project__text,
   .project__inner--reverse .project__media { order: initial; }

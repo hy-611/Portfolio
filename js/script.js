@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================================================
      4. 프로젝트 카드 내 캐러셀 도트 (플레이스홀더 슬라이드 표시용)
   ========================================================= */
-  document.querySelectorAll('.project__carousel-dots').forEach(dotsWrap => {
+  document.querySelectorAll('.project__carousel-dots:not(.project__carousel-dots--section)').forEach(dotsWrap => {
     const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
     const figure = dotsWrap.previousElementSibling;
     const labelEl = figure ? figure.querySelector('strong') : null;
@@ -141,6 +141,27 @@ document.addEventListener('DOMContentLoaded', () => {
           labelEl.textContent = `${baseLabel} (${i + 1}/${dots.length})`;
         }
       });
+    });
+  });
+
+  /* =========================================================
+     4-1. 프로젝트 슬라이더 (가로 슬라이드 + 하단 중앙 도트 네비게이션)
+  ========================================================= */
+  document.querySelectorAll('.js-slider').forEach(slider => {
+    const dotsWrap = document.querySelector(`[data-slider-target="${slider.id}"]`);
+    if (!dotsWrap) return;
+
+    const slides = Array.from(slider.querySelectorAll('.project__slide'));
+    const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+
+    const goTo = (index) => {
+      slider.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+    };
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
     });
   });
 
@@ -177,9 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
      6. 스크롤 인 애니메이션
   ========================================================= */
   const revealTargets = document.querySelectorAll(
-    '.about__body, .project__inner, .gallery__grid, .footer__inner'
+    '.about__title, .about__tagline, .about__photo-cell, .about__info-col, .about__skills-col, ' +
+    '.project:not(.project--slider) .project__inner, .project--slider .project__slide:first-child .project__inner, ' +
+    '.gallery__grid, .footer__inner'
   );
   revealTargets.forEach(el => el.classList.add('reveal'));
+
+  document.querySelectorAll('.skill-icon-ph').forEach((el, i) => {
+    el.style.setProperty('--i', i);
+  });
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -191,5 +218,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.15 });
 
   revealTargets.forEach(el => revealObserver.observe(el));
+
+  /* =========================================================
+     7. 연락처 클릭 시 클립보드 복사
+  ========================================================= */
+  document.querySelectorAll('.js-copy').forEach(link => {
+    const textEl = link.querySelector('.contact-line__text');
+    const originalText = textEl ? textEl.textContent : '';
+    let resetTimer = null;
+
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const value = link.dataset.copy || originalText;
+
+      const showCopied = () => {
+        link.classList.add('is-copied');
+        if (textEl) textEl.textContent = '복사되었습니다';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          link.classList.remove('is-copied');
+          if (textEl) textEl.textContent = originalText;
+        }, 1200);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(showCopied).catch(showCopied);
+      } else {
+        showCopied();
+      }
+    });
+  });
 
 });
