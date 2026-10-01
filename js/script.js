@@ -37,6 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* =========================================================
+     1-3. 표지 사원증 — 마우스 위치에 따라 살짝 3D로 기울어짐
+  ========================================================= */
+  const badgeCard = document.querySelector('.badge__card');
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  if (heroEl && badgeCard && canHover && !prefersReducedMotion) {
+    heroEl.addEventListener('mousemove', (e) => {
+      const rect = heroEl.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;   // -0.5 ~ 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      badgeCard.style.setProperty('--tilt-y', `${x * 14}deg`);
+      badgeCard.style.setProperty('--tilt-x', `${y * -10}deg`);
+    });
+    heroEl.addEventListener('mouseleave', () => {
+      badgeCard.style.setProperty('--tilt-y', '0deg');
+      badgeCard.style.setProperty('--tilt-x', '0deg');
+    });
+  }
+
+  /* =========================================================
      1. 모바일 메뉴 토글
   ========================================================= */
   const navToggle = document.getElementById('navToggle');
@@ -56,50 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navToggle.setAttribute('aria-expanded', 'false');
       });
     });
-  }
-
-  /* =========================================================
-     2. 사이드 도트 네비게이션 — 스크롤 스파이
-  ========================================================= */
-  const sideNav = document.getElementById('sideNav');
-  const sideDots = sideNav ? Array.from(sideNav.querySelectorAll('.side-nav__dot')) : [];
-  const navSections = Array.from(document.querySelectorAll('[data-nav-color]'));
-
-  if (sideDots.length && navSections.length) {
-    const setActiveDot = (id) => {
-      sideDots.forEach(dot => {
-        dot.classList.toggle('is-active', dot.getAttribute('href') === `#${id}`);
-      });
-    };
-
-    const spyObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveDot(entry.target.id);
-        }
-      });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-
-    navSections.forEach(section => spyObserver.observe(section));
-  }
-
-  // 사이드 네비는 표지(Hero)에서는 숨기고, 스크롤로 프로젝트 구간에 들어서면 표시
-  if (sideNav) {
-    const heroSection = document.getElementById('home');
-    const footerSection = document.querySelector('.footer');
-
-    const updateSideNavVisibility = () => {
-      const heroBottom = heroSection ? heroSection.getBoundingClientRect().bottom : 0;
-      const footerTop = footerSection ? footerSection.getBoundingClientRect().top : Infinity;
-      const pastHero = heroBottom <= window.innerHeight * 0.6;
-      const reachedFooter = footerTop <= window.innerHeight * 0.85;
-      const visible = pastHero && !reachedFooter;
-      sideNav.style.opacity = visible ? '1' : '0';
-      sideNav.style.pointerEvents = visible ? 'auto' : 'none';
-    };
-
-    window.addEventListener('scroll', updateSideNavVisibility, { passive: true });
-    updateSideNavVisibility();
   }
 
   /* =========================================================
@@ -171,10 +146,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('modal');
   const modalClose = document.getElementById('modalClose');
   const openModalBtns = document.querySelectorAll('.js-open-modal');
+  const modalViewer = document.getElementById('modalViewer');
+  const modalImg = document.getElementById('modalImg');
+  const modalPlaceholder = document.getElementById('modalPlaceholder');
+  const modalLink = document.getElementById('modalLink');
 
   if (modal) {
     openModalBtns.forEach(btn => {
       btn.addEventListener('click', () => {
+        // data-modal-src가 있으면 이미지 뷰어, 없으면 placeholder 표시
+        const src = btn.dataset.modalSrc;
+        const hasImage = Boolean(src && modalViewer && modalImg);
+        if (hasImage) {
+          modalImg.src = src;
+          modalImg.alt = btn.dataset.modalAlt || '';
+          modalViewer.scrollTop = 0;
+        }
+        if (modalViewer) modalViewer.hidden = !hasImage;
+        if (modalPlaceholder) modalPlaceholder.hidden = hasImage;
+        modal.classList.toggle('is-viewer', hasImage);
+        // 버튼 색: 모달을 연 섹션의 색(data-nav-color)에 맞춤
+        modal.dataset.accent = btn.closest('[data-nav-color]')?.dataset.navColor || 'pink';
+
+        // data-modal-no-link: 링크 버튼 숨김 (그래픽 작업 등)
+        const noLink = 'modalNoLink' in btn.dataset;
+        if (modalLink) modalLink.hidden = noLink;
+
+        // 사이트 링크: data-modal-link 우선, 없으면 같은 버튼 묶음의 새 창 링크(VISIT SITE 등) 사용
+        if (modalLink && !noLink) {
+          const siblingLink = btn.closest('.project__buttons')?.querySelector('a[target="_blank"]');
+          const href = btn.dataset.modalLink || (siblingLink && siblingLink.getAttribute('href')) || '';
+          const hasLink = Boolean(href && href !== '#');
+          modalLink.href = hasLink ? href : '#';
+          modalLink.setAttribute('aria-disabled', String(!hasLink));
+          modalLink.tabIndex = hasLink ? 0 : -1;
+        }
         modal.classList.add('is-open');
         document.body.style.overflow = 'hidden';
       });
@@ -186,6 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
+    // 링크 주소가 없을 때(#)는 클릭해도 이동하지 않음
+    if (modalLink) modalLink.addEventListener('click', (e) => {
+      if (modalLink.getAttribute('aria-disabled') === 'true') e.preventDefault();
+    });
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });

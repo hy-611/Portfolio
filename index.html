@@ -46,29 +46,90 @@
      HERO
 ========================================================= -->
   <section class="hero" id="home">
-    <div class="hero__bigtext" aria-hidden="true">CHOI HAYOUNG</div>
-    <svg class="hero__circle" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="heroCircleFade" x1="50%" y1="100%" x2="50%" y2="0%">
-          <stop offset="0%" stop-color="#0052ff" stop-opacity="0.95" />
-          <stop offset="28%" stop-color="#0052ff" stop-opacity="0.3" />
-          <stop offset="40%" stop-color="#0052ff" stop-opacity="0" />
-          <stop offset="46%" stop-color="#0052ff" stop-opacity="0" />
-          <stop offset="100%" stop-color="#0052ff" stop-opacity="0" />
-        </linearGradient>
-      </defs>
-      <path d="M 300 2 A 298 298 0 1 1 299.99 2" />
-    </svg>
+    <!-- 표지 무대: 사원증이 내려올 때 이 영역 전체가 블러 처리됨 -->
+    <div class="hero__stage">
+      <div class="hero__bigtext" aria-hidden="true">CHOI HAYOUNG</div>
+      <svg class="hero__circle" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="heroCircleFade" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="#0052ff" stop-opacity="0.95" />
+            <stop offset="28%" stop-color="#0052ff" stop-opacity="0.3" />
+            <stop offset="40%" stop-color="#0052ff" stop-opacity="0" />
+            <stop offset="46%" stop-color="#0052ff" stop-opacity="0" />
+            <stop offset="100%" stop-color="#0052ff" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path d="M 300 2 A 298 298 0 1 1 299.99 2" />
+      </svg>
 
-    <div class="hero__content">
-      <p class="hero__tagline">
-        <span class="hero__tagline-line hero__tagline-line--1">
-          <span class="hero__tagline-text">IN HARMONY,</span>
-        </span>
-        <span class="hero__tagline-line hero__tagline-line--2">
-          <span class="hero__tagline-text">LIKE A CIRCLE.</span>
-        </span>
-      </p>
+      <div class="hero__content">
+        <p class="hero__tagline">
+          <span class="hero__tagline-line hero__tagline-line--1">
+            <span class="hero__tagline-text">IN HARMONY,</span>
+          </span>
+          <span class="hero__tagline-line hero__tagline-line--2">
+            <span class="hero__tagline-text">LIKE A CIRCLE.</span>
+          </span>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 사원증: 태그라인 출력 후 배경이 블러되며 위에서 내려옴 -->
+    <div class="hero__badge" aria-hidden="true">
+      <div class="badge__swing">
+        <svg class="badge__lanyard" viewBox="0 0 400 400">
+          <defs>
+            <path id="strapL" d="M 30 -40 L 188 396" />
+            <path id="strapR" d="M 212 396 L 370 -40" />
+          </defs>
+          <use href="#strapL" class="badge__strap" />
+          <use href="#strapR" class="badge__strap" />
+          <text class="badge__strap-text"><textPath href="#strapL">C.HY · DESIGNER · C.HY · DESIGNER · C.HY · DESIGNER ·</textPath></text>
+          <text class="badge__strap-text"><textPath href="#strapR">C.HY · DESIGNER · C.HY · DESIGNER · C.HY · DESIGNER ·</textPath></text>
+        </svg>
+        <div class="badge__clip">
+          <span class="badge__clip-ring"></span>
+          <span class="badge__clip-hook"></span>
+        </div>
+
+        <div class="badge__card">
+          <div class="badge__holder">
+            <span class="badge__hole badge__hole--l"></span>
+            <span class="badge__slot"></span>
+            <span class="badge__hole badge__hole--r"></span>
+          </div>
+          <div class="badge__paper">
+            <div class="badge__head">
+              <span class="badge__logo">C.HY</span>
+              <span class="badge__type">DESIGNER ID</span>
+            </div>
+
+            <div class="badge__name">
+              <span class="badge__name-first">Choi</span>
+              <span class="badge__name-last">Hayoung</span>
+            </div>
+            <span class="badge__circle"></span>
+
+            <dl class="badge__info">
+              <dt>Position</dt>
+              <dd>UI/UX · Web Designer &amp; Publisher</dd>
+              <dt>Skills</dt>
+              <dd class="badge__chips">
+                <span class="badge__chip badge__chip--blue">Figma</span>
+                <span class="badge__chip badge__chip--pink">HTML·CSS</span>
+                <span class="badge__chip badge__chip--purple">Photoshop</span>
+                <span class="badge__chip badge__chip--dark">After Effects</span>
+              </dd>
+            </dl>
+
+            <div class="badge__foot">
+              <span class="badge__no">No. 2026-0611</span>
+              <span class="badge__barcode"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="hero__scroll">
@@ -184,16 +245,6 @@
   </section>
 
   <!-- =========================================================
-     사이드 도트 네비게이션 (섹션 스크롤 인디케이터)
-========================================================= -->
-  <nav class="side-nav" id="sideNav" aria-label="섹션 이동">
-    <a href="#project01" class="side-nav__dot" data-color="pink" aria-label="Web Publishing"></a>
-    <a href="#project02" class="side-nav__dot" data-color="purple" aria-label="UI/UX Design"></a>
-    <a href="#gallery" class="side-nav__dot" data-color="blue" aria-label="Graphic Design"></a>
-    <a href="#project04" class="side-nav__dot" data-color="dark" aria-label="University Work"></a>
-  </nav>
-
-  <!-- =========================================================
      PROJECT 01 — WEB PUBLISHING
 ========================================================= -->
   <section class="project project--01 project--slider" id="project01" data-nav-color="pink">
@@ -216,18 +267,14 @@
               게임 프로모션 콘셉트의 웹퍼블리싱 디자인 작업입니다.
             </p>
             <div class="project__buttons">
-              <button type="button" class="btn btn--lg btn--fill-white js-open-modal">PLANNING</button>
-              <a href="#" class="btn btn--lg btn--outline-pink" target="_blank" rel="noopener">VISIT SITE</a>
+              <button type="button" class="btn btn--lg btn--fill-white js-open-modal" data-modal-src="img/Mockup/Mockup_Onepage_Kirby.png" data-modal-alt="별의 커비 원페이지 디자인 목업">PLANNING</button>
+              <a href="https://hy-611.github.io/onepage/" class="btn btn--lg btn--outline-pink" target="_blank" rel="noopener">VISIT SITE</a>
             </div>
           </div>
 
           <div class="project__media">
-            <figure class="ph ph--wide ph--monitor" data-desc="웹 퍼블리싱 목업 이미지">
-              <svg class="ph-icon">
-                <use href="#icon-image" />
-              </svg>
-              <strong>프로젝트 목업 이미지를 추가해주세요</strong>
-              <span>모니터 목업 · 1600×1200 권장</span>
+            <figure class="project__thumb">
+              <img class="project__thumb-img" src="img/Thumbnail/Thumbnail_Kirby.png" alt="별의 커비 원페이지 디자인 모니터 목업" width="823" height="578">
             </figure>
           </div>
         </div>
@@ -346,42 +393,164 @@
   <!-- =========================================================
      PROJECT 02 — UI/UX DESIGN
 ========================================================= -->
-  <section class="project project--02" id="project02" data-nav-color="purple">
-    <div class="section-inner project__inner project__inner--reverse">
-      <div class="project__media">
-        <figure class="ph ph--wide" data-desc="모바일 앱 목업 이미지">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>앱 화면 목업 이미지를 추가해주세요</strong>
-          <span>스마트폰 목업 · 1600×1200 권장</span>
-        </figure>
-        <div class="project__carousel-dots" data-color="purple">
-          <button class="dot" type="button" aria-label="이미지 1"></button>
-          <button class="dot is-active" type="button" aria-label="이미지 2"></button>
-          <button class="dot" type="button" aria-label="이미지 3"></button>
-          <button class="dot" type="button" aria-label="이미지 4"></button>
+  <section class="project project--02 project--slider" id="project02" data-nav-color="purple">
+    <div class="project__slider">
+    <div class="project__track js-slider" id="project02Slider">
+
+      <!-- 슬라이드 1 -->
+      <div class="project__slide is-active">
+        <div class="section-inner project__inner project__inner--stage project__inner--overlay">
+          <div class="project__text">
+            <p class="project__tags project__tags--plain">
+              <span>#100% Personal Project</span>
+              <span>#10 Days</span>
+              <span>#FIGMA</span>
+            </p>
+            <p class="project__num">02. UI/UX Design</p>
+            <h2 class="project__title">뮤지컬 예매 어플<br>'뮤잇' 디자인</h2>
+            <p class="project__desc">
+              기존의 예매 어플을 대신할 뮤지컬 전용 예매어플을 기획하여<br>
+              보다 편리하게 내용을 확인할 수 있도록 디자인한 프로젝트입니다.
+            </p>
+          </div>
+
+          <div class="project__media">
+            <div class="musit-stage">
+              <div class="musit-stage__item musit-stage__item--schedule">
+                <img src="img/Thumbnail/Thumbnail_Musical_3.png" alt="뮤잇 페어 회차 일정 화면" width="182" height="153">
+              </div>
+              <div class="musit-stage__item musit-stage__item--phones">
+                <img src="img/Thumbnail/Thumbnail_Musical_1.png" alt="뮤잇 앱 공연 상세 화면과 스플래시 화면" width="508" height="665">
+              </div>
+              <div class="musit-stage__item musit-stage__item--cast">
+                <img src="img/Thumbnail/Thumbnail_Musical_2.png" alt="뮤잇 출연진 정보 화면" width="248" height="179">
+              </div>
+              <div class="musit-stage__item musit-stage__item--actor">
+                <img src="img/Thumbnail/Thumbnail_Musical_4.png" alt="뮤잇 배우 선택 팝업 화면" width="172" height="235">
+              </div>
+            </div>
+            <div class="project__buttons">
+              <button type="button" class="btn btn--lg btn--fill-white js-open-modal">PLANNING</button>
+              <button type="button" class="btn btn--lg btn--outline-purple js-open-modal">PROTOTYPING</button>
+              <a href="#" class="btn btn--lg btn--outline-purple" target="_blank" rel="noopener">FIGMA</a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="project__text">
-        <p class="project__tags">
-          <span>#100% Personal Project</span>
-          <span>#10 Days</span>
-          <span>#FIGMA</span>
-        </p>
-        <p class="project__num">02. UI/UX Design</p>
-        <h2 class="project__title">뮤지컬 예매 어플<br>'뮤잇' 디자인</h2>
-        <p class="project__desc">
-          기존의 예매 어플을 대신할 뮤지컬 전용 예매어플을 기획하여<br>
-          보다 편리하게 내용을 확인할 수 있도록 디자인한 프로젝트입니다.
-        </p>
-        <div class="project__buttons">
-          <button type="button" class="btn btn--outline js-open-modal">PLANNING</button>
-          <button type="button" class="btn btn--outline js-open-modal">PROTOTYPING</button>
-          <a href="#" class="btn btn--fill-purple" target="_blank" rel="noopener">FIGMA</a>
+      <!-- 슬라이드 2 -->
+      <div class="project__slide">
+        <div class="section-inner project__inner project__inner--stage">
+          <div class="project__text">
+            <p class="project__tags project__tags--plain">
+              <span>#Personal Project</span>
+              <span>#App</span>
+              <span>#FIGMA</span>
+            </p>
+            <p class="project__num">02. UI/UX Design</p>
+            <h2 class="project__title">프로젝트 제목을<br>입력해주세요</h2>
+            <p class="project__desc">
+              이곳에 두 번째 UI/UX 작업의<br>
+              소개 문구를 입력해주세요.
+            </p>
+          </div>
+
+          <div class="project__media">
+            <figure class="ph ph--wide ph--stage" data-desc="모바일 앱 목업 이미지 2">
+              <svg class="ph-icon">
+                <use href="#icon-image" />
+              </svg>
+              <strong>앱 화면 목업 이미지를 추가해주세요</strong>
+              <span>스마트폰 목업 · 배경 투명 PNG 권장</span>
+            </figure>
+          </div>
+
+          <div class="project__buttons">
+            <button type="button" class="btn btn--lg btn--fill-white js-open-modal">PLANNING</button>
+            <button type="button" class="btn btn--lg btn--outline-purple js-open-modal">PROTOTYPING</button>
+            <a href="#" class="btn btn--lg btn--outline-purple" target="_blank" rel="noopener">FIGMA</a>
+          </div>
         </div>
       </div>
+
+      <!-- 슬라이드 3 -->
+      <div class="project__slide">
+        <div class="section-inner project__inner project__inner--stage">
+          <div class="project__text">
+            <p class="project__tags project__tags--plain">
+              <span>#Personal Project</span>
+              <span>#App</span>
+              <span>#FIGMA</span>
+            </p>
+            <p class="project__num">03. UI/UX Design</p>
+            <h2 class="project__title">프로젝트 제목을<br>입력해주세요</h2>
+            <p class="project__desc">
+              이곳에 세 번째 UI/UX 작업의<br>
+              소개 문구를 입력해주세요.
+            </p>
+          </div>
+
+          <div class="project__media">
+            <figure class="ph ph--wide ph--stage" data-desc="모바일 앱 목업 이미지 3">
+              <svg class="ph-icon">
+                <use href="#icon-image" />
+              </svg>
+              <strong>앱 화면 목업 이미지를 추가해주세요</strong>
+              <span>스마트폰 목업 · 배경 투명 PNG 권장</span>
+            </figure>
+          </div>
+
+          <div class="project__buttons">
+            <button type="button" class="btn btn--lg btn--fill-white js-open-modal">PLANNING</button>
+            <button type="button" class="btn btn--lg btn--outline-purple js-open-modal">PROTOTYPING</button>
+            <a href="#" class="btn btn--lg btn--outline-purple" target="_blank" rel="noopener">FIGMA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 슬라이드 4 -->
+      <div class="project__slide">
+        <div class="section-inner project__inner project__inner--stage">
+          <div class="project__text">
+            <p class="project__tags project__tags--plain">
+              <span>#Personal Project</span>
+              <span>#App</span>
+              <span>#FIGMA</span>
+            </p>
+            <p class="project__num">04. UI/UX Design</p>
+            <h2 class="project__title">프로젝트 제목을<br>입력해주세요</h2>
+            <p class="project__desc">
+              이곳에 네 번째 UI/UX 작업의<br>
+              소개 문구를 입력해주세요.
+            </p>
+          </div>
+
+          <div class="project__media">
+            <figure class="ph ph--wide ph--stage" data-desc="모바일 앱 목업 이미지 4">
+              <svg class="ph-icon">
+                <use href="#icon-image" />
+              </svg>
+              <strong>앱 화면 목업 이미지를 추가해주세요</strong>
+              <span>스마트폰 목업 · 배경 투명 PNG 권장</span>
+            </figure>
+          </div>
+
+          <div class="project__buttons">
+            <button type="button" class="btn btn--lg btn--fill-white js-open-modal">PLANNING</button>
+            <button type="button" class="btn btn--lg btn--outline-purple js-open-modal">PROTOTYPING</button>
+            <a href="#" class="btn btn--lg btn--outline-purple" target="_blank" rel="noopener">FIGMA</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="project__carousel-dots project__carousel-dots--section" data-color="purple" data-slider-target="project02Slider">
+      <button class="dot is-active" type="button" data-index="0" aria-label="1번째 작업 보기"></button>
+      <button class="dot" type="button" data-index="1" aria-label="2번째 작업 보기"></button>
+      <button class="dot" type="button" data-index="2" aria-label="3번째 작업 보기"></button>
+      <button class="dot" type="button" data-index="3" aria-label="4번째 작업 보기"></button>
     </div>
   </section>
 
@@ -390,46 +559,27 @@
 ========================================================= -->
   <section class="gallery" id="gallery" data-nav-color="blue">
     <div class="section-inner">
-      <p class="project__num">03. Graphic Design</p>
-      <h2 class="gallery__title">그래픽 디자인 작업물</h2>
+      <h2 class="sr-only">03. Graphic Design — 그래픽 디자인 작업물</h2>
 
       <div class="gallery__grid">
-        <figure class="ph ph--square" data-desc="포스터 디자인 1">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
-        <figure class="ph ph--square" data-desc="리플렛 디자인">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
-        <figure class="ph ph--square" data-desc="웹 화면 디자인">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
-        <figure class="ph ph--square" data-desc="모바일 앱 디자인">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
-        <figure class="ph ph--square" data-desc="SNS 카드뉴스 디자인">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
-        <figure class="ph ph--square" data-desc="명함 디자인">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>이미지 추가</strong><span>1000×1000</span>
-        </figure>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_1.webp" data-modal-alt="포스터 디자인 1" data-modal-no-link aria-label="포스터 디자인 1 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_1.png" alt="포스터 디자인 1" width="359" height="276" loading="lazy">
+        </button>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_2.webp" data-modal-alt="리플렛 디자인" data-modal-no-link aria-label="리플렛 디자인 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_2.png" alt="리플렛 디자인" width="356" height="276" loading="lazy">
+        </button>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_3.webp" data-modal-alt="웹 화면 디자인" data-modal-no-link aria-label="웹 화면 디자인 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_3.png" alt="웹 화면 디자인" width="416" height="277" loading="lazy">
+        </button>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_4.webp" data-modal-alt="모바일 앱 디자인" data-modal-no-link aria-label="모바일 앱 디자인 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_4.png" alt="모바일 앱 디자인" width="359" height="268" loading="lazy">
+        </button>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_5.webp" data-modal-alt="SNS 카드뉴스 디자인" data-modal-no-link aria-label="SNS 카드뉴스 디자인 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_5.png" alt="SNS 카드뉴스 디자인" width="355" height="267" loading="lazy">
+        </button>
+        <button type="button" class="gallery__item js-open-modal" data-modal-src="img/Mockup/Mockup_Graphic_6.webp" data-modal-alt="명함 디자인" data-modal-no-link aria-label="명함 디자인 크게 보기">
+          <img src="img/Thumbnail/Thumbnail_Graphic_6.png" alt="명함 디자인" width="417" height="267" loading="lazy">
+        </button>
       </div>
     </div>
   </section>
@@ -437,29 +587,23 @@
   <!-- =========================================================
      PROJECT 04 — UNIVERSITY WORK / MAJOR
 ========================================================= -->
-  <section class="project project--04" id="project04" data-nav-color="dark">
-    <div class="section-inner project__inner">
-      <div class="project__text">
-        <p class="project__num">04. MAJOR</p>
-        <h2 class="project__title project__title--xl">UNIVERSITY<br>WORK</h2>
-        <p class="project__desc">
-          대학 재학 동안 기본기를 쌓아온 심화 학과 프로젝트 아카이브입니다.<br>
-          UI/UX 디자인부터 아나로그 VFX, 영상편집, 3D 등 다양한 미디어 영역 및<br>
-          제작 역량을 키워왔습니다.
+  <section class="project project--04 major" id="project04" data-nav-color="dark">
+    <div class="section-inner major__inner">
+      <div class="major__text">
+        <p class="major__num">04. MAJOR</p>
+        <h2 class="major__title">UNIVERSITY<br>WORK</h2>
+        <p class="major__desc">
+          대학 재학 동안 기본기를 쌓으며 담아온 학업 프로젝트 아카이빙입니다.<br>
+          UI/UX 디자인 뿐만 아니라 VFX, 모션그래픽, 3D 등 다양한 미디어의 영상 기획 및 제작 역량을 가지고 있습니다.
         </p>
-        <div class="project__buttons">
-          <a href="#" class="btn btn--outline" target="_blank" rel="noopener">영상 포트폴리오로 상세보기 (motion)</a>
-        </div>
+        <a href="#" class="major__btn" target="_blank" rel="noopener">영상 포트폴리오 상세보기 (notion)</a>
       </div>
 
-      <div class="project__media">
-        <figure class="ph ph--wide" data-desc="전공 작업 이미지">
-          <svg class="ph-icon">
-            <use href="#icon-image" />
-          </svg>
-          <strong>전공 작업 이미지를 추가해주세요</strong>
-          <span>1200×1500 권장</span>
-        </figure>
+      <div class="major__media">
+        <div class="major__stack">
+          <img src="img/Thumbnail/Thumbnail_Major_1.png" alt="전공 작업 영상 장면 1" width="855" height="482" loading="lazy">
+          <img src="img/Thumbnail/Thumbnail_Major_2.png" alt="전공 작업 영상 장면 2" width="855" height="480" loading="lazy">
+        </div>
       </div>
     </div>
   </section>
@@ -468,18 +612,28 @@
      FOOTER
 ========================================================= -->
   <footer class="footer" id="contact">
-    <div class="section-inner footer__inner">
-      <h2 class="footer__title">THANK YOU<span class="accent">.</span></h2>
-      <div class="footer__right">
-        <p class="footer__note">원처럼 둥글고 조화롭게<br>디자인해 드리겠습니다.</p>
+    <div class="section-inner">
+      <div class="footer__top">
+        <h2 class="footer__title">THANK YOU<span class="footer__dot">.</span></h2>
+        <span class="footer__line" aria-hidden="true"></span>
+        <p class="footer__note">원처럼 둥글고 조화롭게,<br><strong>디자이너 최하영</strong>이었습니다.</p>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Portfolio. All rights reserved.</p>
         <div class="footer__icons">
-          <a href="tel:010-1234-5678" aria-label="전화">☎</a>
-          <a href="mailto:mailjuochy@naver.com" aria-label="이메일">✉</a>
-          <a href="#" aria-label="링크">🔗</a>
+          <a href="tel:010-1234-5678" class="footer__icon js-copy" data-copy="010-1234-5678" aria-label="전화번호 복사">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+          </a>
+          <a href="mailto:mailjusohy@naver.com" class="footer__icon js-copy" data-copy="mailjusohy@naver.com" aria-label="이메일 주소 복사">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </a>
+          <a href="https://github.com/hy-611" class="footer__icon js-copy" data-copy="https://github.com/hy-611" aria-label="GitHub 주소 복사">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          </a>
         </div>
       </div>
     </div>
-    <p class="footer__copy">© 2026 Choi Hayoung Portfolio. All rights reserved.</p>
   </footer>
 
   <!-- =========================================================
@@ -487,8 +641,21 @@
 ========================================================= -->
   <div class="modal" id="modal">
     <div class="modal__dialog">
-      <button class="modal__close" id="modalClose" aria-label="닫기">×</button>
-      <figure class="ph ph--wide" data-desc="기획안 이미지">
+      <div class="modal__tools">
+        <button type="button" class="modal__tool modal__tool--close" id="modalClose" aria-label="닫기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
+        </button>
+        <a href="#" class="modal__tool modal__tool--link" id="modalLink" target="_blank" rel="noopener" aria-label="사이트로 이동">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5" />
+            <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" />
+          </svg>
+        </a>
+      </div>
+      <div class="modal__viewer" id="modalViewer" hidden>
+        <img class="modal__img" id="modalImg" src="" alt="">
+      </div>
+      <figure class="ph ph--wide" id="modalPlaceholder" data-desc="기획안 이미지">
         <svg class="ph-icon">
           <use href="#icon-image" />
         </svg>
