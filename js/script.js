@@ -370,15 +370,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const y = window.scrollY;
     const vh = window.innerHeight;
     const points = getSnapPoints();
+    // 영역이 화면보다 조금(15% 이하, 대부분 아래 여백) 길 때는 나누지 않고 한 번에 이동
+    const splitOver = vh * 1.15;
     let target;
     if (dir > 0) {
       target = points.find(p => p > y + 2);
       if (target === undefined) return false;
-      if (target - y > vh + 2) target = y + vh * 0.8;
+      if (target - y > splitOver) target = y + vh * 0.8;
     } else {
       target = [...points].reverse().find(p => p < y - 2);
       if (target === undefined) return false;
-      if (y - target > vh + 2) target = y - vh * 0.8;
+      if (y - target > splitOver) target = y - vh * 0.8;
     }
     isPaging = true;
     smoothScrollTo(target, 1000).then(() => { isPaging = false; });

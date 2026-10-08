@@ -704,6 +704,17 @@ body {
    6. PROJECT SECTIONS
 ========================================================= */
 .project { padding: var(--section-pad) 0; }
+/* Web·UI/UX: 데스크톱에서 다른 섹션처럼 한 화면 높이에 맞추고 콘텐츠를 세로 중앙 정렬
+   (위아래 여백 140px일 때 화면보다 길어져 섹션 단위 스크롤이 두 번에 나눠 이동하던 문제 해결) */
+@media (min-width: 961px) {
+  .project--slider {
+    min-height: 100vh;
+    padding-block: clamp(48px, 9vh, 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 .project--01, .project--02 { background: var(--bg); }
 .project--04 { background: var(--bg); }
 
@@ -854,6 +865,11 @@ body {
 @media (min-width: 961px) {
   .project__thumb--stage.project__thumb--stage-lg .project__thumb-img { translate: -30% -7%; scale: 1.75; }
   .project__thumb--stage.project__thumb--stage-lg::before { translate: -30% -7%; scale: 1.4; }
+  /* 태극당·르 스페이스 조금 아래로 */
+  .project__slide--brown .project__thumb--stage.project__thumb--stage-lg .project__thumb-img,
+  .project__slide--brown .project__thumb--stage.project__thumb--stage-lg::before,
+  .project__slide--indigo .project__thumb--stage.project__thumb--stage-lg .project__thumb-img,
+  .project__slide--indigo .project__thumb--stage.project__thumb--stage-lg::before { translate: -30% 0%; }
 }
 /* --stage-phone (O.S.T): 세로로 긴 폰 2대 목업 + 뒤에 고정된 UI 카드 2장 */
 /* 스테이지 = 폰 이미지와 같은 비율의 상자. 카드 위치(--x, --y, --w)는 이 상자 기준 % */
