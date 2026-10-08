@@ -128,11 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const slides = Array.from(slider.querySelectorAll('.project__slide'));
     const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+    const baseColor = dotsWrap.dataset.color;
 
     const goTo = (index) => {
       slider.style.transform = `translateX(-${index * 100}%)`;
       slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
       dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      // 슬라이드에 고유 색(data-nav-color)이 있으면 도트 색도 따라감
+      dotsWrap.dataset.color = slides[index]?.dataset.navColor || baseColor;
     };
 
     dots.forEach(dot => {
@@ -257,6 +260,155 @@ document.addEventListener('DOMContentLoaded', () => {
         showCopied();
       }
     });
+  });
+
+  /* =========================================================
+     8. 탑 버튼 — 표지를 지나면 표시, 링으로 스크롤 진행률 표시
+  ========================================================= */
+  const toTopBtn = document.getElementById('toTop');
+  if (toTopBtn) {
+    let toTopTicking = false;
+    const updateToTop = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+      toTopBtn.style.setProperty('--progress', progress.toFixed(4));
+      toTopBtn.classList.toggle('is-visible', scrollY > window.innerHeight * 0.6);
+      toTopTicking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!toTopTicking) {
+        requestAnimationFrame(updateToTop);
+        toTopTicking = true;
+      }
+    }, { passive: true });
+    window.addEventListener('resize', updateToTop);
+    updateToTop();
+
+    toTopBtn.addEventListener('click', () => {
+      isPaging = true;
+      smoothScrollTo(0, 1200).then(() => { isPaging = false; });
+    });
+  }
+
+  /* =========================================================
+     9. 부드러운 스크롤 — 섹션 단위 이동 (데스크톱)
+     - 휠/키보드 한 번에 다음·이전 영역으로, 천천히 출발해 부드럽게 멈추는 곡선으로 이동
+     - 화면보다 긴 영역은 한 화면(80%)씩 나눠서 이동
+     - 상단 메뉴 링크·탑 버튼도 같은 움직임 사용
+  ========================================================= */
+  const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  let scrollAnim = null;
+
+  function smoothScrollTo(targetY, duration = 1000) {
+    const root = document.documentElement;
+    const maxY = root.scrollHeight - window.innerHeight;
+    const endY = Math.max(0, Math.min(Math.round(targetY), maxY));
+    if (scrollAnim) cancelAnimationFrame(scrollAnim.id);
+    if (prefersReducedMotion) {
+      window.scrollTo(0, endY);
+      return Promise.resolve();
+    }
+    const startY = window.scrollY;
+    const dist = endY - startY;
+    if (Math.abs(dist) < 1) {
+      scrollAnim = null;
+      root.style.scrollBehavior = '';
+      return Promise.resolve();
+    }
+
+    // CSS의 scroll-behavior: smooth 가 프레임마다 다시 부드럽게 처리하지 않도록 잠시 해제
+    root.style.scrollBehavior = 'auto';
+    return new Promise(resolve => {
+      const startTime = performance.now();
+      const step = (now) => {
+        const p = Math.min((now - startTime) / duration, 1);
+        window.scrollTo(0, startY + dist * easeInOutCubic(p));
+        if (p < 1) {
+          scrollAnim.id = requestAnimationFrame(step);
+        } else {
+          scrollAnim = null;
+          root.style.scrollBehavior = '';
+          resolve();
+        }
+      };
+      scrollAnim = { id: requestAnimationFrame(step) };
+    });
+  }
+
+  // 페이지 내 링크(#about 등)도 같은 움직임으로 이동
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    const id = link.getAttribute('href');
+    if (id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      isPaging = true;
+      smoothScrollTo(target.offsetTop, 1100).then(() => { isPaging = false; });
+    });
+  });
+
+  const pageSections = Array.from(document.querySelectorAll('.hero, .about, .project, .gallery, .footer'));
+  const desktopMQ = window.matchMedia('(min-width: 961px)');
+  let isPaging = false;
+  let wheelLocked = false;
+  let lastWheelTime = 0;
+
+  // 멈출 위치: 각 영역의 맨 위 (마지막 푸터는 페이지 맨 아래에 맞춤)
+  const getSnapPoints = () => {
+    const maxY = document.documentElement.scrollHeight - window.innerHeight;
+    const points = pageSections.map(sec => Math.min(sec.offsetTop, maxY));
+    points[points.length - 1] = maxY;
+    return [...new Set(points)].sort((a, b) => a - b);
+  };
+
+  const pagingEnabled = () =>
+    desktopMQ.matches && !prefersReducedMotion && document.body.style.overflow !== 'hidden';
+
+  const page = (dir) => {
+    const y = window.scrollY;
+    const vh = window.innerHeight;
+    const points = getSnapPoints();
+    let target;
+    if (dir > 0) {
+      target = points.find(p => p > y + 2);
+      if (target === undefined) return false;
+      if (target - y > vh + 2) target = y + vh * 0.8;
+    } else {
+      target = [...points].reverse().find(p => p < y - 2);
+      if (target === undefined) return false;
+      if (y - target > vh + 2) target = y - vh * 0.8;
+    }
+    isPaging = true;
+    smoothScrollTo(target, 1000).then(() => { isPaging = false; });
+    return true;
+  };
+
+  window.addEventListener('wheel', (e) => {
+    if (!pagingEnabled() || e.ctrlKey) return;
+    if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return; // 가로 스크롤은 그대로
+    e.preventDefault();
+
+    // 트랙패드 관성처럼 이어지는 휠 입력은 한 번으로 처리: 입력이 잠시(200ms) 멈춰야 다음 이동 가능
+    const now = performance.now();
+    if (now - lastWheelTime > 200) wheelLocked = false;
+    lastWheelTime = now;
+    if (isPaging || wheelLocked || Math.abs(e.deltaY) < 2) return;
+
+    if (page(Math.sign(e.deltaY))) wheelLocked = true;
+  }, { passive: false });
+
+  window.addEventListener('keydown', (e) => {
+    if (!pagingEnabled() || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest('input, textarea, select, [contenteditable]')) return;
+    const isSpace = e.key === ' ';
+    if (isSpace && e.target.closest('button, a')) return;
+    const down = e.key === 'ArrowDown' || e.key === 'PageDown' || (isSpace && !e.shiftKey);
+    const up = e.key === 'ArrowUp' || e.key === 'PageUp' || (isSpace && e.shiftKey);
+    if (!down && !up) return;
+    e.preventDefault();
+    if (!isPaging) page(down ? 1 : -1);
   });
 
 });
