@@ -592,10 +592,10 @@ body {
   z-index: 2;
   margin-top: clamp(12px, 2.4vh, 32px);
   display: grid;
-  grid-template-columns: 1.25fr 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr 1fr;
   grid-template-areas:
-    "tagline photo line"
-    "info    photo skills";
+    "photo tagline line"
+    "photo info    skills";
   column-gap: clamp(24px, 4vw, 56px);
   row-gap: clamp(12px, 2.4vh, 28px);
   align-items: start;
@@ -610,6 +610,19 @@ body {
 
 .about__photo-cell { grid-area: photo; }
 .ph--tall { height: 100%; min-height: 420px; }
+.about__photo {
+  width: 100%;
+  /* height: 100%; */
+  border-radius: 300px;
+  overflow: hidden;
+  /* background: #fff; */
+}
+.about__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* 크롭될 때 얼굴이 잘리지 않게 위쪽 기준 */
+}
 
 .about__info-col { grid-area: info; }
 .about__skills-col { grid-area: skills; }
@@ -682,9 +695,22 @@ body {
 .reveal-delay-2 { transition-delay: .24s; }
 
 @media (min-width: 961px) {
-  .about__photo-cell { position: relative; z-index: 3; margin-top: -70px; align-self: stretch; display: flex; }
-  /* 사진은 3:4 비율 대신 좌우 텍스트 열 높이에 맞춤 (섹션이 화면 높이를 넘지 않도록) */
-  .about__photo-cell .ph { flex: 1; aspect-ratio: auto; height: auto; min-height: 0; }
+  .about__photo-cell {
+    position: relative;
+    z-index: 3;
+    margin-top: 40px;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;   /* 가로 가운데 */
+    align-items: flex-start;   /* 세로는 위쪽 기준 (늘어나지 않게) */
+  }
+  .about__photo-cell .about__photo {
+    flex: 0 0 auto;            /* 열 높이에 맞춰 늘어나지 않게 */
+    width: 100%;
+    max-width: 280px;          /* ← 이 숫자로 전체 크기 조절 */
+    height: auto;
+    aspect-ratio: 3 / 4;       /* 비율 고정, 높이는 자동 계산 */
+  }
   .info-block--contact { margin-top: clamp(24px, 9vh, 108px); }
 }
 
@@ -832,6 +858,10 @@ body {
   margin-top: 28px;
   position: relative;
   z-index: 2;
+}
+.project__slide--brown .project__buttons,
+.project__slide--indigo .project__buttons {
+    margin-right: 100px;   /* 값이 클수록 더 왼쪽으로 이동 */
 }
 .ph--stage { aspect-ratio: 16 / 10; }
 /* placeholder 슬라이드도 한 화면(하단 도트 포함)에 들어오도록 높이 제한 — 슬라이더 높이는 가장 큰 슬라이드 기준 */
@@ -982,7 +1012,7 @@ body {
     row-gap: 30px;
   }
   .project__inner--stage .project__media { margin: 0; }
-  .project__inner--stage .project__buttons { justify-self: start; margin-top: 0; }
+  .project__inner--stage .project__buttons { justify-self: start; margin-top: 0;  }
 }
 
 .project__num {
@@ -1594,7 +1624,8 @@ body {
     row-gap: 32px;
   }
   .about__line { display: none; }
-  .ph--tall { max-width: 360px; min-height: 360px; margin-inline: auto; }
+  /* .ph--tall { max-width: 360px; min-height: 360px; margin-inline: auto; } */
+  .about__photo { max-width: 360px; aspect-ratio: 3 / 4; margin-inline: auto; }
   .project__inner { grid-template-columns: 1fr; }
   .project__inner--reverse .project__text,
   .project__inner--reverse .project__media { order: initial; }
